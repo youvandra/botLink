@@ -84,7 +84,7 @@ def get_openai_embeddings(api_key):
 # Chain Loaders
 def load_answer_generator(llm, prompt=CUSTOM_STUFF_ANSWER_PROMPT):
     logging.info(f"Loading answer gnerator")
-    answer_generator = load_qa_chain(llm, verbose=True)
+    answer_generator = load_qa_chain(llm, verbose=False) #fg19 verbose True
     answer_generator.llm_chain.prompt = prompt
     return answer_generator
 
@@ -113,7 +113,7 @@ def load_urls(index):
 
     text_splitter = RecursiveCharacterTextSplitter(
         # Set a really small chunk size, just to show.
-        chunk_size = 400,
+        chunk_size = 700,
         chunk_overlap  = 20,
         length_function = len,
         is_separator_regex = False,
@@ -130,14 +130,6 @@ def split_documents(documents, chunk_size=1000, chunk_oeverlap=0):
     )
     documents = text_splitter.split_documents(documents)
     return documents
-
-
-# def load_pdf_document(index):
-#     pages = load_document_by_index(index)
-
-#     for i in tqdm.tqdm(range(len(pages))):
-#         logging.info(pages[i].page_content)
-#     return pages
 
 
 def get_vectorstore(index_name, embeddings, elasticsearch_url=None):
@@ -178,7 +170,12 @@ def create_vectorstore(
     num_chunks = len(documents)
     logging.info(f"{num_chunks} chunks of documents are loaded")
 
-    db.add_documents(documents)
+    db.add_documents(
+        documents, 
+        bulk_kwargs={
+            "chunk_size": 50000,
+            "max_chunk_bytes": 200000000
+        })
     return db
 
 
@@ -189,7 +186,7 @@ def get_conversational_chain(db, question_generator, answer_generator):
         retriever=db.as_retriever(),
         question_generator=question_generator,
         combine_docs_chain=answer_generator,
-        verbose=True # fg19
+        # verbose=True # fg19
     )
 
     return qa
@@ -212,6 +209,8 @@ def update_bot_chain(index, embeddings, embedding_api_key=None, elasticsearch_ur
 
     # documents = load_pdf_document(index=index, ner_index=ner_index)
     documents = load_urls(index)
+    logging.INFO("============ lendoc len documents {}".format(len(documents)))
+
     db = create_vectorstore(
         documents,
         index,
@@ -268,8 +267,8 @@ class CustomLLMChain:
     def __call__(self, text):
         if self.use_history:
             response = self.chain(({"question": text, "chat_history": self.chat_history}))
-            self.chat_history.append((text, response["answer"]))
-
+            response = response['answer']
+            self.chat_history.append((text, response))
         else:
             response = self.chain(text)
         return response 

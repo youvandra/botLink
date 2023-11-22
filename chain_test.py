@@ -5,7 +5,7 @@ from chatgpt_chain.llm_chain import get_bot_chain, update_bot_chain
 
 import logging
 
-logging.getLogger().setLevel(logging.INFO)
+# logging.getLogger().setLevel(logging.INFO) #fg19
 
 load_dotenv()
 OPENAI_KEY = os.getenv('OPENAI_KEY')
@@ -13,7 +13,7 @@ ELASTICSEARCH_URL = os.getenv('ELASTICSEARCH_URL')
 
 
 # chain = update_bot_chain(
-#     index="chain_link", 
+#     index="chain_link_index", 
 #     embeddings="openai",
 #     embedding_api_key=OPENAI_KEY,
 #     elasticsearch_url=ELASTICSEARCH_URL
@@ -24,7 +24,7 @@ import time
 t0 = time.time()
 
 chain = get_bot_chain(
-    index="chain_link", 
+    index="chain_link_index", 
     embeddings="openai",
     embedding_api_key=OPENAI_KEY,
     model_api_key=OPENAI_KEY,
@@ -40,7 +40,7 @@ print('chain load time', t1)
 
 
 for i in range(10):
-    text = input("User:")
+    text = input("\nUser:")
     chain_response = chain(text)
 
-    print("Response:", chain_response)
+    print("\nResponse:", chain_response)

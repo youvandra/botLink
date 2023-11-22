@@ -34,19 +34,21 @@ def get_child_url(url, subdomain, child_url_identifier):
     return urls
 
 
-urls = get_child_url(
-    url='https://docs.chain.link/chainlink-automation', 
-    subdomain='https://docs.chain.link',
-    child_url_identifier=['/resources', '/chainlink-automation', '/architecture-overview']
-)
+if __name__ == "__main__":
+    urls = get_child_url(
+        url='https://docs.chain.link/chainlink-automation', 
+        subdomain='https://docs.chain.link',
+        child_url_identifier=['/resources', '/chainlink-automation', '/architecture-overview']
+    )
+
+    urls = get_child_url(
+        url="https://chain.link/press", 
+        subdomain= "",
+        child_url_identifier=[ "https://"]
+    )
 
 
-# Print the list of URLs
-for url in urls:
-    print(url)
 
-# https://docs.chain.link/getting-started/other-tutorials
-# https://docs.chain.link/resources/link-token-contracts
-# https://docs.chain.link/resources/acquire-link
-
-# https://docs.chain.link/quickstarts/deploy-your-first-contract
+    # Print the list of URLs
+    for url in urls:
+        print(url)

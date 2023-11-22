@@ -1,0 +1,58 @@
+{
+  "urls": [
+    {
+      "url": "https://docs.chain.link/getting-started/conceptual-overview",
+      "child_url_identifier": [
+        "/resources",
+        "/chainlink-automation",
+        "/architecture-overview"
+      ],
+      "subdomain": "https://docs.chain.link"
+    },
+    {
+      "url": "https://docs.chain.link/getting-started/other-tutorials",
+      "child_url_identifier": [
+        "/resources",
+        "/chainlink-automation",
+        "/architecture-overview"
+      ],
+      "subdomain": "https://docs.chain.link"
+    },
+    {
+      "url": "https://docs.chain.link/chainlink-automation",
+      "child_url_identifier": [
+        "/resources",
+        "/chainlink-automation",
+        "/architecture-overview"
+      ],
+      "subdomain": "https://docs.chain.link"
+    },
+    {
+      "url": "https://chain.link/education/blockchain-oracles#toc-first",
+      "child_url_identifier": ["/education"],
+      "subdomain": "https://chain.link/"
+    },
+    {
+      "url": "https://docs.chain.link/chainlink-nodes",
+      "child_url_identifier": [
+        "/resources",
+        "/chainlink-automation",
+        "/architecture-overview",
+        "/chainlink-nodes",
+        "/any-api"
+      ],
+      "subdomain": "https://docs.chain.link"
+    },
+    {
+      "url": "https://chain.link/education",
+      "child_url_identifier": ["/education"],
+      "subdomain": "https://chain.link/education"
+    },
+    {
+      "url": "https://chain.link/press",
+      "child_url_identifier": ["https://"],
+      "subdomain": "",
+      "limit": 10
+    }
+  ]
+}
