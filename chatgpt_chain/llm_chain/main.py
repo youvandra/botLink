@@ -8,8 +8,8 @@ from langchain.chains.question_answering import load_qa_chain
 from langchain.embeddings import HuggingFaceEmbeddings  
 from langchain.embeddings.openai import OpenAIEmbeddings
 
-from gptcache.adapter.langchain_models import LangChainLLMs
-from gptcache import cache
+# from gptcache.adapter.langchain_models import LangChainLLMs
+# from gptcache import cache
 
 from langchain.document_loaders import SeleniumURLLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -266,10 +266,10 @@ class CustomLLMChain:
         
     def __call__(self, text, user_id=None):
         if self.use_history:
-            response = self.chain(({"question": text, "chat_history": self.chat_history}))
+            self.chat_history[user_id] = self.chat_history.get(user_id, [])
+            response = self.chain(({"question": text, "chat_history": self.chat_history[user_id]}))
             response = response['answer']
-            self.chat_history = self.chat_history.get(user_id, [])
-            self.chat_history.append((text, response))
+            self.chat_history[user_id].append((text, response))
         else:
             response = self.chain(text)
         return response 
