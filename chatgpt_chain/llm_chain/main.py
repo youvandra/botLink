@@ -262,12 +262,13 @@ class CustomLLMChain:
         self.chain = chain
         self.model_name = model_name
         self.use_history = use_history
-        self.chat_history = []
+        self.chat_history = {}
         
-    def __call__(self, text):
+    def __call__(self, text, user_id=None):
         if self.use_history:
             response = self.chain(({"question": text, "chat_history": self.chat_history}))
             response = response['answer']
+            self.chat_history = self.chat_history.get(user_id, [])
             self.chat_history.append((text, response))
         else:
             response = self.chain(text)
