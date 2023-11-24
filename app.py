@@ -1,4 +1,5 @@
 from flask import Flask, Response, request
+from flask_cors import CORS
 from dotenv import load_dotenv
 import json
 import os
@@ -33,6 +34,7 @@ OPENAI_KEY = os.getenv('OPENAI_KEY')
 ELASTICSEARCH_URL = os.getenv('ELASTICSEARCH_URL')
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/')
 def main():
@@ -150,4 +152,4 @@ def webhook_openai_docs():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=6099, debug=False)
+    app.run(host='0.0.0.0', port=7860, debug=False)
